@@ -9,6 +9,7 @@
 #define ll long long
 using namespace std;
 
+//Prosedur untuk menampilkan garis
 void garis(){
     cout << "======================================================\n";
 }
@@ -26,8 +27,21 @@ ll kombin(ll n, ll r){
 }
 
 //Prosedur untuk menampilkan bentuk kombinasi
-void kombinbentuk(ll n, ll r){ //contohnya n=10, r=3; 
+void kombinbentuk(ll n, ll r){ //contohnya n=10, r=3; hasilnya (10!/(7!*3!)) 
     cout << "(" << n << "! / ( " << n-r << "! * " << r <<"!))";
+}
+
+//Fungsi untuk mengecek apakah kombinasi itu valid atau tidak
+bool validKombin(ll n, ll r){
+    if(n < 0 || r < 0){
+        cout << "n dan r tidak boleh negatif.\n";
+        return false;
+    }
+    if(r > n){
+        cout << "r tidak boleh lebih besar dari n.\n";
+        return false;
+    }
+    return true;
 }
 
 //Prosedur untuk menyelesaikan soal dengan 1 kombinasi
@@ -37,6 +51,10 @@ void satuKombin(string soal){ //contohnya: C(n,r)
     cout << soal << endl;
     cout << "Masukkan n: "; cin >> n;
     cout << "\nMasukkan r: "; cin >> r;
+    if(!validKombin(n, r)){ 
+        _getch(); 
+        return; 
+    }
     cout << endl; 
     garis();
     cara = kombin(n, r);
@@ -53,28 +71,29 @@ void duaKombin(string soal){ //contohnya: C(n1,r1)*C(n2,r2)
     garis();
     cout << soal << endl;
     cout << "Masukkan n1: "; cin >> n1;
-    cout << "Masukkan n2: "; cin >> n2;
     cout << "Masukkan r1: "; cin >> r1;
+    if(!validKombin(n1, r1)){ 
+        _getch(); 
+        return; 
+    }
+    cout << "Masukkan n2: "; cin >> n2;
     cout << "Masukkan r2: "; cin >> r2;
-    cout << "Masukkan operator(+,-,*,/): "; cin >> opr;
+    if(!validKombin(n2, r2)){ 
+        _getch(); 
+        return; 
+    }
+    cout << "Masukkan operator(+,*): "; cin >> opr;
     switch(opr){
         case '+':
         cara = kombin(n1, r1) + kombin(n2, r2);
         break;
-        case '-':
-        cara = kombin(n1, r1) - kombin(n2, r2);
-        break;
         case '*':
         cara = kombin(n1, r1) * kombin(n2, r2);
         break;
-        case '/':
-        if(kombin(n2, r2) == 0){
-            cout << "Tidak bisa dibagi nol\n"; 
-            _getch(); 
-            return;
-        }
-        cara = kombin(n1, r1) / kombin(n2, r2);
-        break;
+        default:
+        cout << "Operator yang anda pilih tidak tersedia\n";
+        _getch();
+        return;
     }
 
     cout << "C("<<n1<<"," << r1 << ") " << opr << " C(" << n2 << "," << r2 << ")" << " = "; 
@@ -115,9 +134,9 @@ void inputJawab(string soal){
 //Prosedur untuk menginput soal
 void inputSoal(){
     string soal;
-    bool keluar = true;
+    bool ulang = true;
     char yn;
-    while(keluar){
+    while(ulang){
         garis();
         cout << "Masukkan Soal:\n";
         cin.clear(); 
@@ -127,7 +146,7 @@ void inputSoal(){
         inputJawab(soal);
         cout << "\nApakah anda ingin mengulangi (y/n): ";
         cin >> yn;
-        if(yn=='n'||yn=='N') keluar = false;
+        if(yn=='n'||yn=='N') ulang = false;
         else if(yn=='y'||yn=='Y')continue;
     }
 
@@ -137,7 +156,7 @@ void inputSoal(){
 int main() {
     system("cls");
     int pilatas, pilcontoh;
-    bool keluar1 = true ,keluar2 = true;
+    bool lanjut = true;
 
     do{
         string soal;
@@ -150,7 +169,8 @@ int main() {
         cout << "Pilihan anda: "; cin >> pilatas;
         
         switch(pilatas){
-            case 1:
+            case 1:{
+            bool lanjutContoh = true;
             garis();
             do{
                 cout << "Pilihan Soal:\n"
@@ -176,22 +196,25 @@ int main() {
                     break;
                     }
                     case 4:{
-                        keluar2 = false;
+                        lanjutContoh = false;
                         break;
                     }
                 }
-            } while(keluar2);
+            } while(lanjutContoh);
             system("pause");
             break;
-            case 2:
+            }
+            case 2:{
             inputSoal();
             break;
-            case 3:
+            }
+            case 3:{
             cout << "\nTerima kasih sudah menggunakan program kami\n";
             _getch();
             return 0;
+            }
         }
-    } while(keluar1);
+    } while(lanjut);
     return 0;
 }
 
