@@ -104,7 +104,7 @@ void duaKombin(string soal){ //contohnya: C(n1,r1)*C(n2,r2)
     _getch();
 }
 
-//
+//Prosedur untuk menghitung jumlah kombinasi dari r sampai r+n atau r sampai r-n
 void jumlahKombin(string soal){
     garis();
     cout << soal << endl;
