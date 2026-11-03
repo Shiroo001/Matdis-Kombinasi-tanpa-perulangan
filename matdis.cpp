@@ -105,9 +105,80 @@ void duaKombin(string soal){ //contohnya: C(n1,r1)*C(n2,r2)
 }
 
 //Prosedur untuk menghitung jumlah kombinasi dari r sampai r+n atau r sampai r-n
+//Prosedur untuk menghitung gabungan beberapa suku kombinasi
 void jumlahKombin(string soal){
+    int banyak, jenis;
+    ll n1, r1, n2, r2, nilai, nilai2, jumlah = 0, suku = 0, total;
+    char opr = '+', oprDalam;
+    string rumus = "", teks;
     garis();
     cout << soal << endl;
+    cout << "Banyak suku: "; cin >> banyak;
+
+    for(int i=1; i<=banyak; i++){
+        garis();
+        cout << "Suku ke-" << i << endl;
+        if(i > 1){
+            cout << "Operator dengan suku sebelumnya (+,*): "; cin >> opr;
+            if(opr != '+' && opr != '*'){
+                cout << "Operator yang anda pilih tidak tersedia\n";
+                _getch();
+                return;
+            }
+        }
+        cout << "1. Satu kombinasi\n2. Dua kombinasi\n";
+        cout << "Pilihan (1-2): "; cin >> jenis;
+        cout << "Masukkan n1: "; cin >> n1;
+        cout << "Masukkan r1: "; cin >> r1;
+        if(!validKombin(n1, r1)){
+            _getch();
+            return;
+        }
+        nilai = kombin(n1, r1);
+        teks = "C(" + to_string(n1) + "," + to_string(r1) + ")";
+
+        if(jenis == 2){
+            cout << "Operator di dalam suku (+,*): "; cin >> oprDalam;
+            if(oprDalam != '+' && oprDalam != '*'){
+                cout << "Operator yang anda pilih tidak tersedia\n";
+                _getch();
+                return;
+            }
+            cout << "Masukkan n2: "; cin >> n2;
+            cout << "Masukkan r2: "; cin >> r2;
+            if(!validKombin(n2, r2)){
+                _getch();
+                return;
+            }
+            nilai2 = kombin(n2, r2);
+            teks += oprDalam;
+            teks += "C(" + to_string(n2) + "," + to_string(r2) + ")";
+            if(oprDalam == '+'){
+                nilai += nilai2;
+                teks = "(" + teks + ")";
+            } else {
+                nilai *= nilai2;
+            }
+        }
+
+        if(i == 1){
+            suku = nilai;
+            rumus = teks;
+        } else {
+            rumus += opr;
+            rumus += teks;
+            if(opr == '+'){ // suku sebelumnya selesai, masuk ke jumlah
+                jumlah += suku;
+                suku = nilai;
+            } else {        // perkalian dilanjutkan di suku yang sama
+                suku *= nilai;
+            }
+        }
+    }
+    total = jumlah + suku;
+    garis();
+    cout << "Jawab:\n" << rumus << "\n= " << total << endl;
+    _getch();
 }
 
 //Prosedur untuk menginput tipe soal
