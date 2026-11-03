@@ -106,31 +106,47 @@ void duaKombin(string soal){ //contohnya: C(n1,r1)*C(n2,r2)
 
 //Prosedur untuk menghitung jumlah kombinasi dari r sampai r+n atau r sampai r-n
 //Prosedur untuk menghitung gabungan beberapa suku kombinasi
+//Prosedur untuk menghitung deret suku kombinasi dengan pola
 void jumlahKombin(string soal){
     int banyak, jenis;
-    ll n1, r1, n2, r2, nilai, nilai2, jumlah = 0, suku = 0, total;
-    char opr = '+', oprDalam;
+    ll n1, r1, dn1, dr1, n2 = 0, r2 = 0, dn2 = 0, dr2 = 0;
+    ll nilai, nilai2, jumlah = 0, suku = 0, total;
+    char opr, oprDalam = '*';
     string rumus = "", teks;
     garis();
     cout << soal << endl;
+    cout << "Pilihan tipe soal:\n";
+    cout << "1. Satu kombinasi\n2. Dua kombinasi\n";
+    cout << "Pilihan (1-2): "; cin >> jenis;
     cout << "Banyak suku: "; cin >> banyak;
+    cout << "Operator antar suku (+,*): "; cin >> opr;
+    if(opr != '+' && opr != '*'){
+        cout << "Operator yang anda pilih tidak tersedia\n";
+        _getch();
+        return;
+    }
+    cout << "-- Kombinasi pertama (di suku pertama) --\n";
+    cout << "Masukkan n1: "; cin >> n1;
+    cout << "Masukkan r1: "; cin >> r1;
+    cout << "n1 berubah tiap suku sebesar (mis. -1, 0, 1): "; cin >> dn1;
+    cout << "r1 berubah tiap suku sebesar: "; cin >> dr1;
+    if(jenis == 2){
+        cout << "Operator di dalam suku (+,*): "; cin >> oprDalam;
+        if(oprDalam != '+' && oprDalam != '*'){
+            cout << "Operator yang anda pilih tidak tersedia\n";
+            _getch();
+            return;
+        }
+        cout << "-- Kombinasi kedua (di suku pertama) --\n";
+        cout << "Masukkan n2: "; cin >> n2;
+        cout << "Masukkan r2: "; cin >> r2;
+        cout << "n2 berubah tiap suku sebesar: "; cin >> dn2;
+        cout << "r2 berubah tiap suku sebesar: "; cin >> dr2;
+    }
 
     for(int i=1; i<=banyak; i++){
-        garis();
-        cout << "Suku ke-" << i << endl;
-        if(i > 1){
-            cout << "Operator dengan suku sebelumnya (+,*): "; cin >> opr;
-            if(opr != '+' && opr != '*'){
-                cout << "Operator yang anda pilih tidak tersedia\n";
-                _getch();
-                return;
-            }
-        }
-        cout << "1. Satu kombinasi\n2. Dua kombinasi\n";
-        cout << "Pilihan (1-2): "; cin >> jenis;
-        cout << "Masukkan n1: "; cin >> n1;
-        cout << "Masukkan r1: "; cin >> r1;
         if(!validKombin(n1, r1)){
+            cout << "(terjadi pada suku ke-" << i << ")\n";
             _getch();
             return;
         }
@@ -138,15 +154,8 @@ void jumlahKombin(string soal){
         teks = "C(" + to_string(n1) + "," + to_string(r1) + ")";
 
         if(jenis == 2){
-            cout << "Operator di dalam suku (+,*): "; cin >> oprDalam;
-            if(oprDalam != '+' && oprDalam != '*'){
-                cout << "Operator yang anda pilih tidak tersedia\n";
-                _getch();
-                return;
-            }
-            cout << "Masukkan n2: "; cin >> n2;
-            cout << "Masukkan r2: "; cin >> r2;
             if(!validKombin(n2, r2)){
+                cout << "(terjadi pada suku ke-" << i << ")\n";
                 _getch();
                 return;
             }
@@ -167,13 +176,15 @@ void jumlahKombin(string soal){
         } else {
             rumus += opr;
             rumus += teks;
-            if(opr == '+'){ // suku sebelumnya selesai, masuk ke jumlah
+            if(opr == '+'){
                 jumlah += suku;
                 suku = nilai;
-            } else {        // perkalian dilanjutkan di suku yang sama
+            } else {
                 suku *= nilai;
             }
         }
+        n1 += dn1; r1 += dr1;   // maju ke suku berikutnya
+        n2 += dn2; r2 += dr2;
     }
     total = jumlah + suku;
     garis();
@@ -184,6 +195,7 @@ void jumlahKombin(string soal){
 //Prosedur untuk menginput tipe soal
 void inputJawab(string soal){
     int piltipe;
+    garis();
     cout << "Tipe soal yang ada:\n"
     << "1. Satu Kombinasi\n"
     << "2. Dua Kombinasi\n"
@@ -262,13 +274,13 @@ int main() {
                     }
                     case 3:{
                     ll mhs = 100, panit = 10;
-                    soal = "3. Didalam sebuah kelas terdapat 100 mahasiswa, 40 diantara orangnya adalah laki-laki. Berapa banyak cara dapat dibentuk sebuah panitia 10-orang jika laki-laki yang dipilih 6 dan perempuannya 4.";
-                    duaKombin(soal);
+                    soal = "3. Berapa banyak cara membentuk sebuah panitia yang beranggotakan 5 orang yang dipilih dari 7 orang pria dan 5 orang wanita, jika di dalam panitia tersebut paling sedikit beranggotakan 2 orang wanita?";
+                    jumlahKombin(soal);
                     break;
                     }
                     case 4:{
-                        lanjutContoh = false;
-                        break;
+                    lanjutContoh = false;
+                    break;
                     }
                 }
             } while(lanjutContoh);
