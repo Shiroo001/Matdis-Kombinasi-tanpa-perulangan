@@ -12,7 +12,8 @@ void garis(){
     cout << "======================================================\n";
 }
 
-//cek input valid angka
+
+//Function untuk cek input valid angka
 ll inputValid(string kalimat, string error, ll a = 0, ll b = maks){
     ll x;
     while(true){
@@ -25,6 +26,7 @@ ll inputValid(string kalimat, string error, ll a = 0, ll b = maks){
     }
 }
 
+//Function untuk cek input operator apakah + atau *
 char inputOperator(string kalimat){
     char c;
     while(true){
@@ -37,6 +39,7 @@ char inputOperator(string kalimat){
     }
 }
 
+//Function untuk cek input apakah mau mengulangi atau tidak, y atau Y atau n atau N
 char inputValidator(string kalimat){
     char c;
     while(true){
@@ -50,18 +53,20 @@ char inputValidator(string kalimat){
 }
 
 //C(n,r)=n!/(n-r)!r!
+//Function ini digunakan untuk mencari nilai dari kombinasi tanpa perulangan
 ll kombin(ll n, ll r){
     ll hasil = 1;
     if(r < 0 || r > n) return 0;
     if(r == 0 || r == n) return 1;
-    if(r > n-r) r = n-r;
+    if(r > n-r) r = n-r; //cara ini digunakan karena kita tahu C(n,r)==C(n,n-r) agar loop lebih sedikit
     for(int i=1; i<=r; i++){
-        hasil *= (n-r+i);
+        hasil *= (n-r+i); 
         hasil /= i;
     }
     return hasil;
 }
 
+//Prosedur untuk menampilkan "C(n,r)" contohnya jika n=10, r=3; hasilnya "C(10,3)"
 string kombinNotasi(ll n, ll r){
     string notasi;
     notasi = "C(" + to_string(n) + "," + to_string(r) + ")";
@@ -91,15 +96,15 @@ bool validKombin(ll n, ll r){
 //Prosedur untuk mengerjakan beberapa soal-soal kombinasi
 void Kombinasi(string soal){
     int banyak, jenis;
-    ll n1, r1, dn1 = 0, dr1 = 0, n2 = 0, r2 = 0, dn2 = 0, dr2 = 0;
-    ll nilai, nilai2, jumlah = 0, suku = 0, total;
+    ll n1, r1, dn1 = 0, dr1 = 0, n2 = 0, r2 = 0, dn2 = 0, dr2 = 0; //dn1, dr1, dn2, dr2 banyak perubahan yang dialami n dan r
+    ll nilai, nilai2, jumlah = 0, suku = 0, total; 
     char opr = '+', oprDalam = '*';
-    string rumus = "", Ckombin = "", teks, notasi;
+    string rumus = "", Ckombin = "", teks, notasi; //rumus <-> teks, Ckombin <-> notasi
     garis();
     cout << soal << endl;
     cout << "Pilihan tipe soal:\n";
     cout << "1. Satu kombinasi\n2. Dua kombinasi\n";
-    jenis = inputValid("Pilihan (1-2): ", "Pilihan tidak ada", 1, 2);
+    jenis = inputValid("Pilihan (1-2): ", "Pilihan tidak ada", 1, 2); 
     banyak = inputValid("Banyak suku: ", "Masukkan bilangan bulat dan > 0", 1);
     garis();
     if(banyak > 1){
@@ -163,12 +168,13 @@ void Kombinasi(string soal){
                 suku *= nilai;
             }
         }
-        n1 += dn1; r1 += dr1;   // maju ke suku berikutnya
+        n1 += dn1; r1 += dr1;
         n2 += dn2; r2 += dr2;
     }
     total = jumlah + suku;
     garis();
     cout << "Jawab:\n" << Ckombin << "\n=" << rumus << "\n= " << total << endl;
+    cout << "Hasil kombinasi = " << total << endl;
     _getch();
 }
 
@@ -216,20 +222,17 @@ int main() {
                 pilcontoh = inputValid("Soal yang anda pilih: ", "Pilihan tidak ada", 1, 4);
                 switch(pilcontoh){
                     case 1:{
-                    ll mhs = 100, panit = 10, cara;
                     soal = "1. Didalam sebuah kelas terdapat 100 mahasiswa, 40 diantara orangnya adalah laki-laki. Berapa banyak cara dapat dibentuk sebuah panitia 10-orang\n";
                     Kombinasi(soal);
                     break;
                     }
                     case 2:{
-                    ll mhs = 100, panit = 10;
-                    soal = "2. Didalam sebuah kelas terdapat 100 mahasiswa, 40 diantara orangnya adalah laki-laki. Berapa banyak cara dapat dibentuk sebuah panitia 10-orang jika banyaknya laki-laki yang dipilih sama banyak dengan yang perempuan.";
+                    soal = "2. Didalam sebuah kelas terdapat 100 mahasiswa, 40 diantara orangnya adalah laki-laki. Berapa banyak cara dapat dibentuk sebuah panitia 10-orang jika banyaknya laki-laki yang dipilih sama banyak dengan yang perempuan.\n";
                     Kombinasi(soal);
                     break;
                     }
                     case 3:{
-                    ll mhs = 100, panit = 10;
-                    soal = "3. Berapa banyak cara membentuk sebuah panitia yang beranggotakan 5 orang yang dipilih dari 7 orang pria dan 5 orang wanita, jika di dalam panitia tersebut paling sedikit beranggotakan 2 orang wanita?";
+                    soal = "3. Berapa banyak cara membentuk sebuah panitia yang beranggotakan 5 orang yang dipilih dari 7 orang pria dan 5 orang wanita, jika di dalam panitia tersebut paling sedikit beranggotakan 2 orang wanita?\n";
                     Kombinasi(soal);
                     break;
                     }
