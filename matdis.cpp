@@ -60,8 +60,8 @@ ll kombin(ll n, ll r){
     if(r == 0 || r == n) return 1;
     if(r > n-r) r = n-r; //cara ini digunakan karena kita tahu C(n,r)==C(n,n-r) agar loop lebih sedikit
     for(int i=1; i<=r; i++){
-        hasil *= (n-r+i); 
-        hasil /= i;
+        hasil *= (n-r+i); //penyederhanaan hitungan dari yang awalnya misal n=10 dan r=3
+        hasil /= i; //maka 10!/(7!*3!) = 10*9*8/3! = 10*9*8/3*2*1 sesuai dengan carapenghitungan
     }
     return hasil;
 }
